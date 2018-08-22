@@ -1,29 +1,44 @@
 import re
+from datetime import datetime
 
 data = "t=20180806T122000&s=240.00&fn=8712000100040824&i=16588&fp=3931869026&n=1"
 
+def conv_split_date_time( yyyymmddThhmmss ):
+   date = ""
+   time = ""
+
+   dt = datetime.strptime( yyyymmddThhmmss, "%Y%m%dT%H%M%S" )
+   print(dt)
+   type(dt)
+
+   date = dt.strftime("%d.%m.%Y")
+   time = dt.strftime("%H:%M:%S")
+
+   return  date, time;
+
 def parse_data(data):
 
-    """
-    :type data: str
-    """
-    print("**************************************")
-    print(data)
+   """
+   :type data: str
+   """
+   print("**************************************")
+   print(data)
 
-    params_arr = re.split('&', data)
-    params_dict = {}
+   params_arr = re.split('&', data)
+   params_dict = {}
 
-    for param in params_arr:
-    	param_arr = re.split('=', param)
-    	params_dict[param_arr[0]] = param_arr[1]
+   for param in params_arr:
+      param_arr = re.split('=', param)
+      params_dict[param_arr[0]] = param_arr[1]
 
-    date_time = re.split('T', params_dict["t"])
-    params_dict["Dt"] = date_time[0];
-    params_dict["Tm"] = date_time[1];
+   date_str, time_str = conv_split_date_time( params_dict["t"] )
 
-    print ("Data of purchase " + params_dict["Dt"] +
-    		  "\nTime of purchase " + params_dict["Tm"] +
-    		  "\nSumm of purchase " + params_dict["s"] + '\n')
+   params_dict["D"] = date_str;
+   params_dict["T"] = time_str;
+
+   print ("Date of purchase " + params_dict["D"] +
+        "\nTime of purchase " + params_dict["T"] +
+        "\nSumm of purchase " + params_dict["s"] + '\n')
 
 
 if __name__ == "__main__":
