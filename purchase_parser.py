@@ -1,5 +1,6 @@
 import re
 from datetime import datetime
+import table_writer
 
 data = "t=20180806T122000&s=240.00&fn=8712000100040824&i=16588&fp=3931869026&n=1"
 
@@ -39,6 +40,10 @@ def parse_data(data):
    print ("Date of purchase " + params_dict["D"] +
         "\nTime of purchase " + params_dict["T"] +
         "\nSumm of purchase " + params_dict["s"] + '\n')
+
+   raw = [params_dict["D"], params_dict["T"], params_dict["s"]]
+
+   table_writer.write_record(raw, 1)
 
 
 if __name__ == "__main__":
