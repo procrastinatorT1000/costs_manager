@@ -43,7 +43,9 @@ def parse_data(data):
 
    raw = [params_dict["D"], params_dict["T"], params_dict["s"]]
 
-   table_writer.write_record(raw, 1)
+   book, sheet = table_writer.init_table('records.xlsx')
+   table_writer.write_record(sheet, raw)
+   table_writer.deinit_table(book)
 
 
 if __name__ == "__main__":
