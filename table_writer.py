@@ -1,9 +1,6 @@
 import openpyxl
-# from openpyxl import Workbook
 import os.path
 
-# workbook
-# worksheet
 
 def init_table(table_path = 'records.xlsx'):
    print ('Initialize table ' + table_path )
@@ -22,21 +19,23 @@ def init_table(table_path = 'records.xlsx'):
 
    return workbook, worksheet
 
-def write_record( sheet_item, raw_lst ):
+def write_record( sheet_item, row_lst ):
 
    empty_row_id = 1;
-   for row in range(1, 100):
-      if sheet_item['A'+str(row)].value == sheet_item['B'+str(row)].value == sheet_item['C'+str(row)].value:
+   while True:
+      if (sheet_item['A'+str(empty_row_id)].value ==
+         sheet_item['B'+str(empty_row_id)].value == 
+         sheet_item['C'+str(empty_row_id)].value):
          break
       else:
          empty_row_id +=1
+   
 
-   # empty_row_id +=1
-   print ("Saving record to records.xlsx" + str(raw_lst) + "in " + str(empty_row_id) + " raw")
+   print ("Saving record to records.xlsx" + str(row_lst) + "in " + str(empty_row_id) + " row")
    
    column_names = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
    column_idx = 0;
-   for cell in raw_lst:
+   for cell in row_lst:
       column = column_names[column_idx]
       sheet_item[column+str(empty_row_id)] = cell;
       column_idx += 1;

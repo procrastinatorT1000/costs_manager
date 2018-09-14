@@ -35,6 +35,18 @@ def read_qrcode(capture):
 
    return ret_data, ret_stat
 
+def continue_question():
+
+   while(1):
+
+      # For python3 input()
+      decision = raw_input("Successful processed. Continue? Y/N: ")
+      
+      if decision == 'Y' or decision == 'y':
+         return True
+      elif decision == 'N' or decision == 'n':
+         return False
+
 
 def main():
    """
@@ -56,10 +68,21 @@ def main():
       if ret_stat:
          counter = counter + 1
          print(counter)
-         purchase_parser.parse_data(qr_data)
-      # To quit this program press q.
-      if cv2.waitKey(1) & 0xFF == ord('q'):
-         break
+         try:
+            status = purchase_parser.parse_data(qr_data)
+         except:
+            print('Error: Parsing exception\n')
+
+         if(status):
+            if continue_question() == False:
+               break
+
+      try:
+         # To quit this program press q.
+         if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+      except:
+         print('Exception in waitKey()')
         
 
 if __name__ == "__main__":
